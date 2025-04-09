@@ -1,0 +1,52 @@
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="mt-04"> Lista de Roupas</h1>
+      <table class="table table-condensed">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Descrição</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let roupa of Roupas">
+              <td>{{roupa.id}}</td>
+              <td>{{roupa.nome}}</td>
+              <td>{{roupa.descricao}}</td>
+              <td>
+                <button class="btn btn-primary" routerLink="/roupas/cadastro-roupa/{{roupa.id}}">
+                  Editar
+                </button>
+                <button class="btn btn-danger"
+                data-bs-toggle="modal" data-bs-target="#modalDelecao"
+                (click)="preparaDelecao(roupa)">
+                  Deletar
+                </button>
+              </td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div id="modalDelecao" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4>Confirmação</h4>
+        </div>
+        <div class="modal-body" *ngIf="roupaSelecionada">
+          Confirmar a deleção do usuario(a) {{ roupaSelecionada.nome }} ?
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-success" (click)="deletarCliente()" data-bs-dismiss="modal">Confirmar</button>
+          <button class="btn btn-default" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
