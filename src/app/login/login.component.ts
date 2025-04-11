@@ -15,6 +15,8 @@ export class LoginComponent {
     Usuario: Usuario;
     loginError: boolean;
     cadastrando: boolean;
+    success: boolean = false;
+    error: String[];
 
   constructor(
     private router: Router,
@@ -23,15 +25,15 @@ export class LoginComponent {
     this.Usuario = new Usuario();
    }
 
-   showSuccess() {
-    this.toastService.success('Hello world!', 'Toastr fun!');
-  }
 
   submit(){
     this.AuthService.login(this.Usuario.email, this.Usuario.password)
-    .subscribe({
-      next: () => this.toastService.success("Login feito com sucesso!"),
-      error: () => this.toastService.error("Erro inesperado! Tente novamente mais tarde")
+    .subscribe ( Response => {
+      this.success = true,
+      this.toastService.success("Login efetuado com sucesso!"),
+      this.router.navigate(['roupas/lista-roupa']);
+    }, errorResponse =>{
+      this.error = ['Erro ao atualizar o cliente.']
     })
   }
 
@@ -45,7 +47,7 @@ export class LoginComponent {
   }
 
   cadastro(){
-    this.router.navigate(['/roupas/cadastro-login']);
+    this.router.navigate(['roupas/cadastro-login']);
   }
 
 }

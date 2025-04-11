@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
+import { AuthService } from '../auth.service';
 
 
 
@@ -15,7 +16,10 @@ import { FooterComponent } from './footer/footer.component';
   ],
   exports: [
     NavbarComponent,
-    FooterComponent
+    FooterComponent,
+  ],
+  providers:[
+    AuthService
   ]
 })
 export class TemplateModule { }
