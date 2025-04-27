@@ -3,6 +3,7 @@ import { Component} from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Usuario } from './login';
+import { NgForm } from '@angular/forms';
 
 
 @Component({
@@ -13,10 +14,7 @@ import { Usuario } from './login';
 export class LoginComponent {
 
     Usuario: Usuario;
-    loginError: boolean;
-    cadastrando: boolean;
     success: boolean = false;
-    error: String[];
 
   constructor(
     private router: Router,
@@ -25,29 +23,30 @@ export class LoginComponent {
     this.Usuario = new Usuario();
    }
 
+  //Realiza o Login do cliente
+  submit(form: NgForm) {
+    if (form.invalid) {
+      console.log("teste")
+      // Marcar todos os campos como "tocados" para exibir as mensagens de erro
+      Object.values(form.controls).forEach(control => {
+        control.markAsTouched();
+      });
+      this.toastService.error("Preencha todos os campos obrigatórios.");
+      return;
+    }
 
-  submit(){
+    // Se válido, prossegue com o login
     this.AuthService.login(this.Usuario.email, this.Usuario.password)
-    .subscribe ( Response => {
-      this.success = true,
-      this.toastService.success("Login efetuado com sucesso!"),
-      this.router.navigate(['roupas/lista-roupa']);
-    }, errorResponse =>{
-      this.error = ['Erro ao atualizar o cliente.']
-    })
-  }
-
-  preparaCadastrar(event: { preventDefault: () => void; }){
-    event.preventDefault();
-    this.cadastrando = true;
-  }
-
-  cancelaCadastro(){
-    this.cadastrando = false;
-  }
-
-  cadastro(){
-    this.router.navigate(['roupas/cadastro-login']);
+      .subscribe(
+        Response => {
+          this.success = true;
+          this.toastService.success("Login efetuado com sucesso!");
+          this.router.navigate(['/cadastro-roupa']);
+        },
+        errorResponse => {
+          this.toastService.error("Usuário ou senha inválidos.");
+        }
+      );
   }
 
 }

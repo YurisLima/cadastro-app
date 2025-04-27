@@ -7,10 +7,11 @@ import { FormsModule } from '@angular/forms';
 import { ListaRoupaComponent } from './lista-roupa/lista-roupa.component';
 
 
+
 @NgModule({
   declarations: [
     RoupasFormComponent,
-    ListaRoupaComponent
+    ListaRoupaComponent,
   ],
   imports: [
     CommonModule,
@@ -18,7 +19,7 @@ import { ListaRoupaComponent } from './lista-roupa/lista-roupa.component';
     FormsModule
   ], exports: [
     RoupasFormComponent,
-    ListaRoupaComponent
+    ListaRoupaComponent,
   ]
 })
 export class RoupasModule { }

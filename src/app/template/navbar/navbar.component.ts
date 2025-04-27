@@ -1,6 +1,8 @@
+import { Roupas } from './../../roupas/roupas';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/auth.service';
+import { RoupasService } from 'src/app/roupas.service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,8 +12,10 @@ import { AuthService } from 'src/app/auth.service';
 export class NavbarComponent implements OnInit {
 
   userName: string | null = null;
+  Roupas: Roupas[] = [];
 
-  constructor(private router: Router, private authService: AuthService) { }
+  constructor(private router: Router, private authService: AuthService, private service: RoupasService) {
+  }
 
   ngOnInit(): void {
     this.authService.getUserInfo().subscribe({
@@ -25,11 +29,22 @@ export class NavbarComponent implements OnInit {
     });
 }
 
+filtro: string = '';
 
-
-  logout() {
-    this.authService.logout(); // remove token
-    this.router.navigate(['/roupas/login']);
+buscar() {
+  if (this.filtro.trim() === '') {
+    this.service.getLista(); // carrega tudo
+  } else {
+    this.service.buscarPorNome(this.filtro).subscribe(data => {
+      this.Roupas = data;
+    });
   }
+}
+
+logout() {
+  sessionStorage.removeItem('auth-token');
+  location.reload()
+  this.router.navigate(['']);
+}
 
 }

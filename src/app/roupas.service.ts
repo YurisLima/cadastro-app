@@ -32,4 +32,8 @@ export class RoupasService {
    deletar( Roupas: Roupas) : Observable<any> {
     return this.http.delete<any> (`http://localhost:8080/api/controller/Deleta/${Roupas.id}`);
    }
+
+   buscarPorNome(nome: string): Observable<any[]> {
+    return this.http.get<any[]>(`http://localhost:8080/api/controller/buscar?nome=${nome}`);
+  }
 }

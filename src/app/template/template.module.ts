@@ -1,22 +1,23 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from './navbar/navbar.component';
-import { FooterComponent } from './footer/footer.component';
+
 import { AuthService } from '../auth.service';
+import { FormsModule } from '@angular/forms';
 
 
 
 @NgModule({
   declarations: [
     NavbarComponent,
-    FooterComponent
+
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule
   ],
   exports: [
     NavbarComponent,
-    FooterComponent,
   ],
   providers:[
     AuthService

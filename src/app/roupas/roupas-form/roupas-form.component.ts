@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Roupas } from '../roupas';
 import { RoupasService } from 'src/app/roupas.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-roupas-form',
@@ -17,7 +18,8 @@ export class RoupasFormComponent implements OnInit {
 
   constructor( private service : RoupasService,
                private router : Router,
-               private activatedRoute : ActivatedRoute) {
+               private activatedRoute : ActivatedRoute,
+               private toastService: ToastrService ) {
     this.Roupas = new Roupas();
   }
 
@@ -44,17 +46,19 @@ export class RoupasFormComponent implements OnInit {
       .atualizar(this.Roupas)
       .subscribe ( Response => {
         this.success = true,
-        this.router.navigate(['roupas/lista-roupa']);
+        this.toastService.success("Cadastro Atualizado !"),
+        this.router.navigate(['/lista-roupa']);
       }, errorResponse =>{
-        this.error = ['Erro ao atualizar o cliente.']
+        this.toastService.error("Erro ao atualizar o cliente.")
       })
     } else {
     this.service.salvar(this.Roupas)
     .subscribe ( Response => {
       this.success = true,
-      this.router.navigate(['roupas/lista-roupa']);
+      this.toastService.success("O cadastro foi realizado com sucesso"),
+      this.router.navigate(['/lista-roupa']);
     }, errorResponse => {
-      this.error = errorResponse.erro.erros;
+      this.toastService.error("Erro inesperado")
     })
   }
 

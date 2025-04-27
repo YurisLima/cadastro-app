@@ -3,6 +3,7 @@
   <div class="row">
     <div class="col-md-12">
       <h1 class="mt-04"> Lista de Roupas</h1>
+      <input type="text" class="form-control mb-3" placeholder="Buscar por Nome" [(ngModel)]="filtro" (input)="buscar()">
       <table class="table table-condensed">
         <thead>
           <tr>
@@ -17,7 +18,7 @@
               <td>{{roupa.nome}}</td>
               <td>{{roupa.descricao}}</td>
               <td>
-                <button class="btn btn-primary" style="margin-right: 5px;" routerLink="/roupas/cadastro-roupa/{{roupa.id}}">
+                <button class="btn btn-primary" style="margin-right: 5px;" routerLink="/lista/{{roupa.id}}">
                   Editar
                 </button>
                 <button class="btn btn-danger"
@@ -46,7 +47,7 @@
         </div>
       </div>
     </div>
-
   </div>
 </div>
+
 

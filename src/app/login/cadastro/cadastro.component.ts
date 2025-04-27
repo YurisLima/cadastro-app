@@ -20,18 +20,24 @@ export class CadastroComponent {
    }
 
   submit(){
-    console.log("teste")
     this.AuthService.signup(this.Usuario.name, this.Usuario.email, this.Usuario.password)
     .subscribe ( Response => {
       this.success = true,
       this.ToastrService.success("Cadastro realizado com sucesso!"),
       this.router.navigate(['roupas/lista-roupa']);
     }, errorResponse =>{
-      this.error = ['Erro ao atualizar o cliente.']
+      if (errorResponse.status === 409 && errorResponse.error && errorResponse.error.message) { // "Verifica se email ja está cadastrado."
+        this.ToastrService.error("Email ja cadastrado");
+      } else {
+        this.ToastrService.error("Erro inesperado. Tente novamente.");
+      }
+
     })
   }
 
   login(){
     this.router.navigate(['/roupas/cadastro-login']);
   }
+
+  mensagemErro: string = 'TESTE';
 }

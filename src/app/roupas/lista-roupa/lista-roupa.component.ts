@@ -11,12 +11,15 @@ import { Router } from '@angular/router';
 })
 export class ListaRoupaComponent implements OnInit {
 
-  Roupas: Roupas[] = [];
+  Roupas: any[] = []; // Lista original
+  RoupasFiltradas: any[] = []; // Lista para os resultados da busca
+  filtro: string = '';
+
   roupaSelecionada: Roupas;
   mensagemSucesso: string;
   mensagemErro: string;
 
-  constructor(private service: RoupasService) { }
+  constructor(private service: RoupasService, private toastService: ToastrService) { }
 
   ngOnInit(): void {
     this.service
@@ -31,9 +34,21 @@ export class ListaRoupaComponent implements OnInit {
     this.service
     .deletar(this.roupaSelecionada)
     .subscribe(
-      Response => {this.mensagemSucesso = 'Cliente deletado com sucesso'
+      Response => {this.toastService.success("Cliente deletado com sucesso"),
                    this.ngOnInit();},
-      erro => this.mensagemErro = 'Ocorreu um erro ao deletar o cliente'
+      erro => this.toastService.success("Ocorreu um erro ao deletar o cliente")
     )
+  }
+
+  buscar() {
+    if (this.filtro.trim() === '') {
+      this.service.getLista()
+      .subscribe( resposta => this.Roupas = resposta);
+      // carrega tudo
+    } else {
+      this.service.buscarPorNome(this.filtro).subscribe(data => {
+        this.Roupas = data;
+      });
+    }
   }
 }

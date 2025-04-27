@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { LoginResponse } from './types/login-response.type';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -29,6 +30,7 @@ export class AuthService {
       )
     }
 
+    //Pega o usuario logado e apresenta o username do cabeçalho
     getUserInfo(): Observable<any> {
       const token = sessionStorage.getItem('auth-token'); // pega o token salvo após login
       const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
@@ -36,15 +38,13 @@ export class AuthService {
       return this.http.get("http://localhost:8080/auth/user", { headers });
     }
 
-
-    logout() {
-      // Aqui você pode limpar o token, redirecionar, etc.
-      sessionStorage.removeItem('auth-token'); // ou o que você usa
+    setToken(token: string) {
+      sessionStorage.setItem('auth-token', token);
     }
 
-    //Verifica se o usuario esta logado
-    isAuthenticated() : boolean {
-      return true;
+    isAuthenticated(): boolean {
+      return !!sessionStorage.getItem('auth-token');
     }
+
 }
 
